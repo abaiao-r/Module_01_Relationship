@@ -6,7 +6,7 @@
 /*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 13:09:01 by guest             #+#    #+#             */
-/*   Updated: 2024/07/22 13:11:09 by guest            ###   ########.fr       */
+/*   Updated: 2024/07/23 11:10:10 by guest            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,19 @@ class Worker
         statistic stat;
     
     public:
-        Worker();
+        Worker(void);
+        Worker(int x, int y, int z, int level, int exp);
         Worker(const Worker &src);
-        ~Worker();
+        ~Worker(void);
         Worker &operator=(const Worker &rhs);
-
         
-}
+        // Setters
+        void setPosition(int x, int y, int z);
+        void setStatistic(int level, int exp);
+
+        // Getters
+        const position &getPosition(void) const;
+        const statistic &getStatistic(void) const;
+};
+
+#endif

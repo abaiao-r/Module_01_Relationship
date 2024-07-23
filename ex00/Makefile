@@ -6,7 +6,7 @@
 #    By: guest <guest@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/22 12:48:10 by guest             #+#    #+#              #
-#    Updated: 2024/07/22 13:13:51 by guest            ###   ########.fr        #
+#    Updated: 2024/07/23 11:16:52 by guest            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,14 +21,12 @@ OBJDIR = objs
 # Source Files
 
 SRCS =  $(SRCDIR)/main.cpp \
-		$(SRCDIR)/position.cpp \
-		$(SRCDIR)/statistic.cpp \
 		$(SRCDIR)/Worker.cpp
 		
 OBJS = 	$(SRCS:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 
 # Targets
-NAME = I_dont_know_what_im_doing
+NAME =  Putting_it_into_practice
 
 
 all: 	$(NAME)
