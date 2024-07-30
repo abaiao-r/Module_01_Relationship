@@ -6,7 +6,7 @@
 /*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:17:13 by guest             #+#    #+#             */
-/*   Updated: 2024/07/23 11:25:06 by guest            ###   ########.fr       */
+/*   Updated: 2024/07/30 11:40:13 by guest            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ Worker::Worker()
     this->coordonnee.z = 0;
     this->stat.level = 0;
     this->stat.exp = 0;
+    this->shovel = NULL;
 }
 
 Worker::Worker(int x, int y, int z, int level, int exp)
@@ -35,9 +36,11 @@ Worker::Worker(int x, int y, int z, int level, int exp)
     this->coordonnee.z = z;
     this->stat.level = level;
     this->stat.exp = exp;
+    this->shovel = NULL;
 }
 
-Worker::Worker(const Worker &src) : coordonnee(src.coordonnee), stat(src.stat)
+Worker::Worker(const Worker &src) : coordonnee(src.coordonnee), stat(src.stat), 
+    shovel(src.shovel)
 {
     std::cout << YELLOW << "Worker copy constructor called" << RESET 
         << std::endl;
@@ -46,6 +49,10 @@ Worker::Worker(const Worker &src) : coordonnee(src.coordonnee), stat(src.stat)
 Worker::~Worker(void)
 {
     std::cout << ORANGE << "Worker destructor called" << RESET << std::endl;
+    if (this->shovel)
+    {
+        std::cout << "Worker still has a shovel." << std::endl;
+    }
 }
 
 Worker &Worker::operator=(const Worker &rhs)
@@ -56,6 +63,7 @@ Worker &Worker::operator=(const Worker &rhs)
     {
         this->coordonnee = rhs.coordonnee;
         this->stat = rhs.stat;
+        this->shovel = rhs.shovel;
     }
     return (*this);
 }
@@ -92,4 +100,30 @@ const statistic &Worker::getStatistic(void) const
     return (this->stat);
 }
 
+void Worker::giveShovel(Shovel *newShovel)
+{
+    std::cout << "Worker giveShovel called" << std::endl;
+    if (this->shovel)
+    {
+        std::cout << "Worker already has a shovel." << std::endl;
+        shovel = NULL;
+    }
+    this->shovel = newShovel;
+    std::cout << "Shovel given to worker." << std::endl;
+}
 
+void Worker::useShovel(void)
+{
+    std::cout << "Worker useShovel called" << std::endl;
+    if (this->shovel)
+        this->shovel->use();
+    else
+        std::cout << "Worker has no shovel to use." << std::endl;
+}
+
+void Worker::takeShovel(void)
+{
+    std::cout << "Worker takeShovel called" << std::endl;
+    this->shovel = NULL;
+    std::cout << "Shovel taken away from worker." << std::endl;
+}

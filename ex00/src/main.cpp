@@ -6,12 +6,78 @@
 /*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:49:10 by guest             #+#    #+#             */
-/*   Updated: 2024/07/23 11:53:22 by guest            ###   ########.fr       */
+/*   Updated: 2024/07/30 12:25:23 by guest            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/Worker.hpp"
+#include "../includes/Shovel.hpp"
 #include "../includes/colours.hpp"
+
+void testShovelAggregation(void)
+{
+    {
+        std::cout << CYAN << "\n\n------------------------------------\n\n" << RESET << std::endl;
+        std::cout << CYAN << "Testing Shovel assignment...\n\n" << RESET << std::endl;
+
+        std::cout << CYAN << "Test 1: Assigning and using the shovel with Worker 1\n" << RESET << std::endl;
+        Worker worker1;
+        Worker worker2;
+        Shovel shovel;
+
+        std::cout << "Worker 1 giving shovel to itself." << std::endl;
+        worker1.giveShovel(&shovel);
+        
+        std::cout << "Worker 1 using the shovel." << std::endl;
+        worker1.useShovel();
+        
+        std::cout << "Worker 1 using the shovel again." << std::endl;
+        worker1.useShovel();
+
+        std::cout << CYAN << "Test 2: Reassigning the shovel to Worker 2 and using it\n" << RESET << std::endl;
+        std::cout << "Worker 2 giving shovel to itself. This should remove the shovel from Worker 1." << std::endl;
+        worker2.giveShovel(&shovel);
+        
+        std::cout << "Worker 1 trying to use the shovel." << std::endl;
+        worker1.useShovel(); // Should show worker1 does not have the shovel
+        
+        std::cout << "Worker 2 using the shovel." << std::endl;
+        worker2.useShovel();
+
+        std::cout << CYAN << "Test 3: Worker 2 takes the shovel away\n" << RESET << std::endl;
+        std::cout << "Worker 2 taking the shovel away." << std::endl;
+        worker2.takeShovel();
+        
+        std::cout << "Worker 2 trying to use the shovel." << std::endl;
+        worker2.useShovel(); // Should show worker2 does not have the shovel
+
+        std::cout << "Shovel total uses: " << shovel.getNumberOfUses() << std::endl;
+        if (shovel.getNumberOfUses() == 3) {
+            std::cout << "Test Shovel Assignment: Passed" << std::endl;
+        } else {
+            std::cout << "Test Shovel Assignment: Failed" << std::endl;
+        }
+
+        std::cout << CYAN << "Test 4: Ensure the shovel is not destroyed when Worker is destroyed\n" << RESET << std::endl;
+        {
+            Worker tempWorker;
+            std::cout << "Temporary Worker giving shovel to itself." << std::endl;
+            tempWorker.giveShovel(&shovel);
+            
+            std::cout << "Temporary Worker using the shovel." << std::endl;
+            tempWorker.useShovel();
+        } // tempWorker goes out of scope here and should be destroyed
+
+        std::cout << "Shovel total uses after temporary Worker destruction: " << shovel.getNumberOfUses() << std::endl;
+        if (shovel.getNumberOfUses() == 4) {
+            std::cout << "Test Shovel After Worker Destruction: Passed" << std::endl;
+        } else {
+            std::cout << "Test Shovel After Worker Destruction: Failed" << std::endl;
+        }
+
+        std::cout << CYAN << "\n\n------------------------------------\n\n" << RESET << std::endl;
+    }
+}
 
 /**
  * @brief Test function for creating a parameterized Worker object.
@@ -63,8 +129,7 @@ void testCreateParameterizedWorker(void)
  * @brief Test case for creating a default Worker.
  * 
  * This test case creates a default Worker object and verifies that its position 
- * and statistic
- * values are set correctly.
+ * and statistic values are set correctly.
  * 
  * @param void
  * @return void
@@ -110,6 +175,7 @@ int main (void)
 
     testCreateDefaultWorker();
     testCreateParameterizedWorker();
+    testShovelAggregation();
 
     std::cout << PURPLE << "Tests Finished." << RESET << std::endl;
 }

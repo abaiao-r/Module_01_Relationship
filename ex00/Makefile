@@ -6,7 +6,7 @@
 #    By: guest <guest@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/22 12:48:10 by guest             #+#    #+#              #
-#    Updated: 2024/07/23 11:16:52 by guest            ###   ########.fr        #
+#    Updated: 2024/07/30 12:08:02 by guest            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ OBJDIR = objs
 # Source Files
 
 SRCS =  $(SRCDIR)/main.cpp \
-		$(SRCDIR)/Worker.cpp
+		$(SRCDIR)/Worker.cpp \
+		$(SRCDIR)/Shovel.cpp
 		
 OBJS = 	$(SRCS:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 
