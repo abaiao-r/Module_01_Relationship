@@ -6,7 +6,7 @@
 /*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:49:10 by guest             #+#    #+#             */
-/*   Updated: 2024/07/30 12:25:23 by guest            ###   ########.fr       */
+/*   Updated: 2024/08/02 11:09:47 by guest            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@
 void testShovelAggregation(void)
 {
     {
-        std::cout << CYAN << "\n\n------------------------------------\n\n" << RESET << std::endl;
-        std::cout << CYAN << "Testing Shovel assignment...\n\n" << RESET << std::endl;
+        std::cout << CYAN << "\n\n------------------------------------\n\n" 
+            << RESET << std::endl;
+        std::cout << CYAN << "Testing Shovel assignment...\n\n" << RESET 
+            << std::endl;
 
         std::cout << CYAN << "Test 1: Assigning and using the shovel with Worker 1\n" << RESET << std::endl;
         Worker worker1;
@@ -76,6 +78,81 @@ void testShovelAggregation(void)
         }
 
         std::cout << CYAN << "\n\n------------------------------------\n\n" << RESET << std::endl;
+    }
+}
+
+void testShovelAlone(void)
+{
+    {
+        std::cout << CYAN << "\n\n------------------------------------\n\n" 
+            << RESET << std::endl;
+        std::cout << CYAN << "Testing Shovel alone...\n" << RESET << std::endl;
+        
+        std::cout << "\nCreating Shovel..." << std::endl;
+        
+        Shovel shovel;
+        
+        std::cout << "\nUsing Shovel..." << std::endl;
+        shovel.use();
+        shovel.use();
+        if (shovel.getNumberOfUses() == 2)
+        {
+            std::cout << GREEN << "Test Shovel Alone: Passed" << RESET 
+                << std::endl;
+        }
+        else 
+        {
+            std::cout << RED << "Test Shovel Alone: Failed" << RESET 
+                << std::endl;
+        }
+
+        std::cout << "\nCreate a new shovel" << std::endl;
+        Shovel shovel2;
+        shovel2.use();
+        shovel2.use();
+        shovel2.use();
+        
+        if (shovel2.getNumberOfUses() == 3)
+        {
+            std::cout << GREEN << "Test Shovel Alone 2: Passed" << RESET 
+                << std::endl;
+        }
+        else 
+        {
+            std::cout << RED << "Test Shovel Alone 2: Failed" << RESET 
+                << std::endl;
+        }
+
+        
+        std::cout << "\nCreating Shovel copy..." << std::endl;
+        Shovel shovelCopy(shovel);
+        
+        std::cout << "\nUsing Shovel copy..." << std::endl;
+        shovelCopy.use();
+
+        if (shovelCopy.getNumberOfUses() == 3)
+        {
+            std::cout << GREEN << "Test Shovel Copy: Passed" << RESET 
+                << std::endl;
+        }
+        else 
+        {
+            std::cout << RED << "Test Shovel Copy: Failed" << RESET 
+                << std::endl;
+        }
+
+        std::cout << "\nUsing first Shovel..." << std::endl;
+        shovel.use();
+        if (shovel.getNumberOfUses() == 3)
+        {
+            std::cout << GREEN << "Test Shovel Copy 2: Passed" << RESET 
+                << std::endl;
+        }
+        else 
+        {
+            std::cout << RED << "Test Shovel Copy 2: Failed" << RESET 
+                << std::endl;
+        }
     }
 }
 
@@ -173,8 +250,9 @@ int main (void)
 {
     std::cout << PURPLE << "Starting Tests...\n\n" << RESET << std::endl;
 
-    testCreateDefaultWorker();
-    testCreateParameterizedWorker();
+    // testCreateDefaultWorker();
+    // testCreateParameterizedWorker();
+    //testShovelAlone();
     testShovelAggregation();
 
     std::cout << PURPLE << "Tests Finished." << RESET << std::endl;

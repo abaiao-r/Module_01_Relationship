@@ -6,7 +6,7 @@
 /*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 13:09:01 by guest             #+#    #+#             */
-/*   Updated: 2024/07/30 11:24:01 by guest            ###   ########.fr       */
+/*   Updated: 2024/08/02 10:11:31 by guest            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ class Worker
         position coordonnee;
         statistic stat;
         Shovel *shovel;
+        static size_t idWorker;
     
     public:
         Worker(void);

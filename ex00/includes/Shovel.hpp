@@ -6,7 +6,7 @@
 /*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 11:59:41 by guest             #+#    #+#             */
-/*   Updated: 2024/07/23 12:04:26 by guest            ###   ########.fr       */
+/*   Updated: 2024/08/02 11:02:24 by guest            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ class Shovel
 {
     private:
         size_t numberOfUses;
+        static size_t nextId;
+        const size_t idShovel;
         
     public:
         Shovel(void);
@@ -29,6 +31,7 @@ class Shovel
 
         void use(void);
         const size_t &getNumberOfUses(void) const;
+        const size_t &getIdShovel(void) const;
 };
 
 #endif
