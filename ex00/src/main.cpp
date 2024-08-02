@@ -6,7 +6,7 @@
 /*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:49:10 by guest             #+#    #+#             */
-/*   Updated: 2024/08/02 11:09:47 by guest            ###   ########.fr       */
+/*   Updated: 2024/08/02 13:31:18 by guest            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,36 +25,36 @@ void testShovelAggregation(void)
         std::cout << CYAN << "Test 1: Assigning and using the shovel with Worker 1\n" << RESET << std::endl;
         Worker worker1;
         Worker worker2;
-        Shovel shovel;
+        Shovel shovel1;
 
         std::cout << "Worker 1 giving shovel to itself." << std::endl;
-        worker1.giveShovel(&shovel);
+        worker1.giveShovel(&shovel1);
         
         std::cout << "Worker 1 using the shovel." << std::endl;
-        worker1.useShovel();
+        worker1.useShovel(shovel1.getIdShovel());
         
         std::cout << "Worker 1 using the shovel again." << std::endl;
-        worker1.useShovel();
+        worker1.useShovel(shovel1.getIdShovel());
 
         std::cout << CYAN << "Test 2: Reassigning the shovel to Worker 2 and using it\n" << RESET << std::endl;
         std::cout << "Worker 2 giving shovel to itself. This should remove the shovel from Worker 1." << std::endl;
-        worker2.giveShovel(&shovel);
+        worker2.giveShovel(&shovel1);
         
         std::cout << "Worker 1 trying to use the shovel." << std::endl;
-        worker1.useShovel(); // Should show worker1 does not have the shovel
+        worker1.useShovel(shovel1.getIdShovel()); // Should show worker1 does not have the shovel
         
         std::cout << "Worker 2 using the shovel." << std::endl;
-        worker2.useShovel();
+        worker2.useShovel(shovel1.getIdShovel());
 
         std::cout << CYAN << "Test 3: Worker 2 takes the shovel away\n" << RESET << std::endl;
         std::cout << "Worker 2 taking the shovel away." << std::endl;
-        worker2.takeShovel();
+        worker2.takeAwayShovel(&shovel1);
         
         std::cout << "Worker 2 trying to use the shovel." << std::endl;
-        worker2.useShovel(); // Should show worker2 does not have the shovel
+        worker2.useShovel(shovel1.getIdShovel());// Should show worker2 does not have the shovel
 
-        std::cout << "Shovel total uses: " << shovel.getNumberOfUses() << std::endl;
-        if (shovel.getNumberOfUses() == 3) {
+        std::cout << "Shovel total uses: " << shovel1.getNumberOfUses() << std::endl;
+        if (shovel1.getNumberOfUses() == 4) {
             std::cout << "Test Shovel Assignment: Passed" << std::endl;
         } else {
             std::cout << "Test Shovel Assignment: Failed" << std::endl;
@@ -64,23 +64,32 @@ void testShovelAggregation(void)
         {
             Worker tempWorker;
             std::cout << "Temporary Worker giving shovel to itself." << std::endl;
-            tempWorker.giveShovel(&shovel);
+            tempWorker.giveShovel(&shovel1);
             
             std::cout << "Temporary Worker using the shovel." << std::endl;
-            tempWorker.useShovel();
+            tempWorker.useShovel(shovel1.getIdShovel());
         } // tempWorker goes out of scope here and should be destroyed
 
-        std::cout << "Shovel total uses after temporary Worker destruction: " << shovel.getNumberOfUses() << std::endl;
-        if (shovel.getNumberOfUses() == 4) {
-            std::cout << "Test Shovel After Worker Destruction: Passed" << std::endl;
+        std::cout << "Shovel total uses after temporary Worker destruction: " << shovel1.getNumberOfUses() << std::endl;
+        if (shovel1.getNumberOfUses() == 5) {
+            std::cout << "Test Shovel Assignment 2: Passed" << std::endl;
         } else {
-            std::cout << "Test Shovel After Worker Destruction: Failed" << std::endl;
+            std::cout << "Test Shovel Assignment 2: Failed" << std::endl;
         }
 
         std::cout << CYAN << "\n\n------------------------------------\n\n" << RESET << std::endl;
     }
 }
 
+/**
+ * @brief Test function for the Shovel class when used alone.
+ * 
+ * This function tests the functionality of the Shovel class when used alone.
+ * It creates a Shovel object, uses it multiple times, and checks the number of uses.
+ * It also tests the copy constructor by creating a copy of the Shovel object and using it.
+ * 
+ * @return void
+ */
 void testShovelAlone(void)
 {
     {

@@ -6,7 +6,7 @@
 /*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 11:59:41 by guest             #+#    #+#             */
-/*   Updated: 2024/08/02 11:02:24 by guest            ###   ########.fr       */
+/*   Updated: 2024/08/02 13:04:45 by guest            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ class Shovel
         ~Shovel(void);
         Shovel &operator=(const Shovel &rhs);
 
+        // use is basically a setter for numberOfUses
         void use(void);
+
+        // Getters
         const size_t &getNumberOfUses(void) const;
         const size_t &getIdShovel(void) const;
 };
