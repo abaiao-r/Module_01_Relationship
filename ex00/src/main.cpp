@@ -6,7 +6,7 @@
 /*   By: abaiao-r <abaiao-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:49:10 by guest             #+#    #+#             */
-/*   Updated: 2024/08/12 13:16:28 by abaiao-r         ###   ########.fr       */
+/*   Updated: 2024/08/12 13:39:58 by abaiao-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,11 +148,10 @@ void testShovelAggregation(void)
         std::cout << CYAN << "\n\n------------------------------------\n\n" << RESET << std::endl;
         
         // test using a shovel that does not exist
-        std::cout << CYAN << "Test 6: Using a shovel that does not exist\n" << RESET << std::endl;
+        std::cout << CYAN << "Test 6: Using a shovel that he does not have\n" << RESET << std::endl;
         worker1.useShovel(shovel1.getIdShovel()); // Should show worker1 does not have the shovel
 
         std::cout << CYAN << "\n\n------------------------------------\n\n" << RESET << std::endl;
-
     
     }
 }
