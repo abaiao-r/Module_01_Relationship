@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Shovel.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abaiao-r <abaiao-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 12:04:02 by guest             #+#    #+#             */
-/*   Updated: 2024/08/02 11:04:18 by guest            ###   ########.fr       */
+/*   Updated: 2024/08/12 12:43:27 by abaiao-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 size_t Shovel::nextId = 1;
 
-Shovel::Shovel(void) : numberOfUses(0), idShovel(nextId++)
+Shovel::Shovel(void) : numberOfUses(0), idShovel(nextId++), owner(NULL)
 {
     //print: what constructor is called, the id of the object, and the number of uses
     std::cout << YELLOW << "Shovel default constructor called" << RESET 
@@ -80,5 +80,21 @@ const size_t &Shovel::getIdShovel(void) const
     std::cout << YELLOW << "Id of the shovel: " << this->idShovel << RESET 
         << std::endl;
     return (this->idShovel);
+}
+
+Worker *Shovel::getOwner(void) const
+{
+    //print: the owner of the shovel
+    std::cout << YELLOW << "Owner of the shovel " << this->idShovel << ": "
+        << this->owner << RESET << std::endl;
+    return (this->owner);
+}
+
+void Shovel::setOwner(Worker *newOwner)
+{
+    this->owner = newOwner;
+    //print: the owner of the shovel
+    std::cout << YELLOW << "Owner of the shovel " << this->idShovel 
+        << " set to " << newOwner << RESET << std::endl;
 }
 

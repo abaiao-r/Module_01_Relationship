@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abaiao-r <abaiao-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:49:10 by guest             #+#    #+#             */
-/*   Updated: 2024/08/02 13:31:18 by guest            ###   ########.fr       */
+/*   Updated: 2024/08/12 13:16:28 by abaiao-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void testShovelAggregation(void)
         std::cout << CYAN << "Testing Shovel assignment...\n\n" << RESET 
             << std::endl;
 
+        std::cout << CYAN << "\n\n------------------------------------\n\n" 
+            << RESET << std::endl;
         std::cout << CYAN << "Test 1: Assigning and using the shovel with Worker 1\n" << RESET << std::endl;
         Worker worker1;
         Worker worker2;
@@ -36,6 +38,19 @@ void testShovelAggregation(void)
         std::cout << "Worker 1 using the shovel again." << std::endl;
         worker1.useShovel(shovel1.getIdShovel());
 
+        // result of the test
+        if (shovel1.getNumberOfUses() == 2)
+        {
+            std::cout << GREEN << "Test Shovel Assignment: Passed" << RESET 
+                << std::endl;
+        }
+        else 
+        {
+            std::cout << RED << "Test Shovel Assignment: Failed" << RESET 
+                << std::endl;
+        }
+
+        std::cout << CYAN << "\n\n------------------------------------\n\n" << RESET << std::endl;
         std::cout << CYAN << "Test 2: Reassigning the shovel to Worker 2 and using it\n" << RESET << std::endl;
         std::cout << "Worker 2 giving shovel to itself. This should remove the shovel from Worker 1." << std::endl;
         worker2.giveShovel(&shovel1);
@@ -46,6 +61,19 @@ void testShovelAggregation(void)
         std::cout << "Worker 2 using the shovel." << std::endl;
         worker2.useShovel(shovel1.getIdShovel());
 
+        // result of the test
+        if (shovel1.getNumberOfUses() == 3)
+        {
+            std::cout << GREEN << "Test Shovel Assignment: Passed" << RESET 
+                << std::endl;
+        }
+        else 
+        {
+            std::cout << RED << "Test Shovel Assignment: Failed" << RESET 
+                << std::endl;
+        }
+
+        std::cout << CYAN << "\n\n------------------------------------\n\n" << RESET << std::endl;
         std::cout << CYAN << "Test 3: Worker 2 takes the shovel away\n" << RESET << std::endl;
         std::cout << "Worker 2 taking the shovel away." << std::endl;
         worker2.takeAwayShovel(&shovel1);
@@ -54,12 +82,20 @@ void testShovelAggregation(void)
         worker2.useShovel(shovel1.getIdShovel());// Should show worker2 does not have the shovel
 
         std::cout << "Shovel total uses: " << shovel1.getNumberOfUses() << std::endl;
-        if (shovel1.getNumberOfUses() == 4) {
-            std::cout << "Test Shovel Assignment: Passed" << std::endl;
-        } else {
-            std::cout << "Test Shovel Assignment: Failed" << std::endl;
+
+        // result of the test
+        if (shovel1.getNumberOfUses() == 3)
+        {
+            std::cout << GREEN << "Test Shovel Assignment: Passed" << RESET 
+                << std::endl;
+        }
+        else 
+        {
+            std::cout << RED << "Test Shovel Assignment: Failed" << RESET 
+                << std::endl;
         }
 
+        std::cout << CYAN << "\n\n------------------------------------\n\n" << RESET << std::endl;
         std::cout << CYAN << "Test 4: Ensure the shovel is not destroyed when Worker is destroyed\n" << RESET << std::endl;
         {
             Worker tempWorker;
@@ -71,13 +107,53 @@ void testShovelAggregation(void)
         } // tempWorker goes out of scope here and should be destroyed
 
         std::cout << "Shovel total uses after temporary Worker destruction: " << shovel1.getNumberOfUses() << std::endl;
-        if (shovel1.getNumberOfUses() == 5) {
-            std::cout << "Test Shovel Assignment 2: Passed" << std::endl;
-        } else {
-            std::cout << "Test Shovel Assignment 2: Failed" << std::endl;
+
+        // result of the test
+        if (shovel1.getNumberOfUses() == 4)
+        {
+            std::cout << GREEN << "Test Shovel Assignment: Passed" << RESET 
+                << std::endl;
+        }
+        else 
+        {
+            std::cout << RED << "Test Shovel Assignment: Failed" << RESET 
+                << std::endl;
         }
 
+
         std::cout << CYAN << "\n\n------------------------------------\n\n" << RESET << std::endl;
+
+        std::cout << CYAN << "Test 5: Ensure the shovel is not destroyed when Worker is destroyed\n" << RESET << std::endl;
+        {
+            Worker tempWorker;
+            std::cout << "Temporary Worker giving shovel to itself." << std::endl;
+            tempWorker.giveShovel(&shovel1);
+            
+            std::cout << "Temporary Worker using the shovel." << std::endl;
+            tempWorker.useShovel(shovel1.getIdShovel());
+
+            // result of the test
+            if (shovel1.getNumberOfUses() == 5)
+            {
+                std::cout << GREEN << "Test Shovel Assignment: Passed" << RESET 
+                    << std::endl;
+            }
+            else 
+            {
+                std::cout << RED << "Test Shovel Assignment: Failed" << RESET 
+                    << std::endl;
+            }
+        } // tempWorker goes out of scope here and should be destroyed
+        
+        std::cout << CYAN << "\n\n------------------------------------\n\n" << RESET << std::endl;
+        
+        // test using a shovel that does not exist
+        std::cout << CYAN << "Test 6: Using a shovel that does not exist\n" << RESET << std::endl;
+        worker1.useShovel(shovel1.getIdShovel()); // Should show worker1 does not have the shovel
+
+        std::cout << CYAN << "\n\n------------------------------------\n\n" << RESET << std::endl;
+
+    
     }
 }
 

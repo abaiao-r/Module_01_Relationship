@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Worker.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guest <guest@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abaiao-r <abaiao-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:17:13 by guest             #+#    #+#             */
-/*   Updated: 2024/08/02 13:15:02 by guest            ###   ########.fr       */
+/*   Updated: 2024/08/12 12:59:36 by abaiao-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,27 @@ const std::vector<Shovel *> &Worker::getShovelList(void) const
 
 void Worker::giveShovel(Shovel *newShovel)
 {
+    //check if the shovel is already in the list
+    for (std::vector<Shovel *>::iterator it = this->shovelList.begin(); 
+        it != this->shovelList.end(); it++)
+    {
+        if (*it == newShovel)
+        {
+            std::cout << "Worker " << this->idWorker << " already has shovel with ID: " 
+                << newShovel->getIdShovel() << std::endl;
+            return;
+        }
+    }
+
+    // remove the shovel from the previous owner
+    Worker *previousOwner = newShovel->getOwner();
+    if (previousOwner != NULL)
+    {
+        previousOwner->takeAwayShovel(newShovel);
+    }
+
     this->shovelList.push_back(newShovel);
+    newShovel->setOwner(this);
     std::cout << "Worker " << this->idWorker << " received a new shovel with ID: " 
         << newShovel->getIdShovel() << std::endl;
 }
@@ -158,6 +178,7 @@ void Worker::takeAwayShovel(Shovel *shovelToRemove)
             std::cout << "Worker " << this->idWorker << " is removing shovel with ID: " 
                 << shovelToRemove->getIdShovel() << std::endl;
             this->shovelList.erase(it);
+            shovelToRemove->setOwner(NULL); // Remove the owner from the shovel
             return;
         }
         it++;
@@ -170,7 +191,13 @@ void Worker::removeAllShovels(void)
 {
     // Optionally notify that shovels are not being deleted
     std::cout << "Worker " << this->idWorker << " is clearing all shovels without deleting them." << std::endl;
-    this->shovelList.clear(); // Clear the vector without deleting the shovels
+    // Remove the owner from all shovels and clear the list
+    for (std::vector<Shovel *>::iterator it = this->shovelList.begin(); 
+        it != this->shovelList.end(); it++)
+    {
+        (*it)->setOwner(NULL);
+    }
+    this->shovelList.clear();
 }
 
 void Worker::useShovel(size_t shovelId)
