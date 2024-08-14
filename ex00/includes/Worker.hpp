@@ -6,7 +6,7 @@
 /*   By: abaiao-r <abaiao-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 13:09:01 by guest             #+#    #+#             */
-/*   Updated: 2024/08/14 19:11:26 by abaiao-r         ###   ########.fr       */
+/*   Updated: 2024/08/14 21:15:12 by abaiao-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "colours.hpp"
 # include "Shovel.hpp"
 # include "ATool.hpp"
+# include "Workshop.hpp"
 
 class Worker
 {
@@ -47,12 +48,14 @@ class Worker
         const statistic &getStatistic(void) const;
         const size_t &getIdWorker(void) const;
         const std::vector<ATool *> &getToolList(void) const;
+        void work(void);
 
         // Tool
         void giveTool(ATool *newTool);
         void takeAwayTool(ATool *toolToRemove);
         void removeAllTools(void);
         void useTool(size_t toolId); // New method to use a tool by its ID
+
 };
 
 #endif
