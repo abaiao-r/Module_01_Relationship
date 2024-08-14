@@ -6,13 +6,129 @@
 /*   By: abaiao-r <abaiao-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:49:10 by guest             #+#    #+#             */
-/*   Updated: 2024/08/12 13:39:58 by abaiao-r         ###   ########.fr       */
+/*   Updated: 2024/08/14 20:48:10 by abaiao-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/Worker.hpp"
 #include "../includes/Shovel.hpp"
+#include "../includes/Hammer.hpp"
 #include "../includes/colours.hpp"
+
+void testInheritance(void)
+{
+/*     {
+        // test instantiation of ATool
+        std::cout << CYAN << "\n\n------------------------------------\n\n" 
+            << RESET << std::endl;
+        std::cout << CYAN << "Testing ATool instantiation...\n\n" << RESET
+            << std::endl;
+        ATool tool("Tool"); // compile error if ATool is abstract
+    } */
+    {
+        // test if giving a shovel and hammer to a worker works
+        std::cout << CYAN << "\n\n------------------------------------\n\n" 
+            << RESET << std::endl;
+        std::cout << CYAN << "Testing Worker with Shovel and Hammer...\n\n"
+            << RESET << std::endl;
+        Worker worker;
+        Shovel shovel;
+        Hammer hammer;
+
+        std::cout << "Worker giving shovel to itself." << std::endl;
+        worker.giveTool(&shovel);
+        std::cout << "Worker giving hammer to itself." << std::endl;
+        worker.giveTool(&hammer);
+
+        std::cout << "Worker using the shovel." << std::endl;
+        worker.useTool(shovel.getIdTool());
+        std::cout << "Worker using the hammer." << std::endl;
+        worker.useTool(hammer.getIdTool());
+
+        // result of the test
+        if (shovel.getNumberOfUses() == 1 && hammer.getNumberOfUses() == 1)
+        {
+            std::cout << GREEN << "Test Worker with Shovel and Hammer: Passed" 
+                << RESET << std::endl;
+        }
+        else 
+        {
+            std::cout << RED << "Test Worker with Shovel and Hammer: Failed" 
+                << RESET << std::endl;
+        }
+
+        // now give just shovel to another worker, check if worker 1 can use shovel and hammer
+        Worker worker2;
+        std::cout << "Worker 2 giving shovel to itself." << std::endl;
+        worker2.giveTool(&shovel);
+
+        std::cout << "Worker 1 using the shovel." << std::endl;
+        worker.useTool(shovel.getIdTool());
+        std::cout << "Worker 1 using the hammer." << std::endl;
+        worker.useTool(hammer.getIdTool());
+
+        // result of the test
+        if (shovel.getNumberOfUses() == 1 && hammer.getNumberOfUses() == 2)
+        {
+            std::cout << GREEN << "Test Worker with Shovel and Hammer: Passed" 
+                << RESET << std::endl;
+        }
+        else 
+        {
+            std::cout << RED << "Test Worker with Shovel and Hammer: Failed" 
+                << RESET << std::endl;
+        }
+    }
+    {
+        //test use copy constructor for shovel and hammer and giving them to a worker
+        std::cout << CYAN << "\n\n------------------------------------\n\n" 
+            << RESET << std::endl;
+        std::cout << CYAN << "Testing Worker with Shovel and Hammer copy constructor...\n\n"
+            << RESET << std::endl;
+        Worker worker;
+        Shovel shovel;
+        Hammer hammer;
+
+        std::cout << "Worker giving shovel to itself." << std::endl;
+        worker.giveTool(&shovel);
+        std::cout << "Worker giving hammer to itself." << std::endl;
+        worker.giveTool(&hammer);
+
+        std::cout << "Worker using the shovel." << std::endl;
+        worker.useTool(shovel.getIdTool());
+        std::cout << "Worker using the hammer." << std::endl;
+        worker.useTool(hammer.getIdTool());
+
+        // copy constructor for shovel
+        Shovel shovelCopy(shovel);
+        // copy constructor for hammer
+        Hammer hammerCopy(hammer);
+
+        // give the copies to the worker
+        std::cout << "Worker giving shovel copy to itself." << std::endl;
+        worker.giveTool(&shovelCopy);
+        std::cout << "Worker giving hammer copy to itself." << std::endl;
+        worker.giveTool(&hammerCopy);
+
+        std::cout << "Worker using the shovel copy." << std::endl;
+        worker.useTool(shovelCopy.getIdTool());
+        std::cout << "Worker using the hammer copy." << std::endl;
+        worker.useTool(hammerCopy.getIdTool());
+
+        // result of the test
+        if (shovel.getNumberOfUses() == 1 && hammer.getNumberOfUses() == 1
+            && shovelCopy.getNumberOfUses() == 1 && hammerCopy.getNumberOfUses() == 1)
+        {
+            std::cout << GREEN << "Test Worker with Shovel and Hammer copy constructor: Passed" 
+                << RESET << std::endl;
+        }
+        else 
+        {
+            std::cout << RED << "Test Worker with Shovel and Hammer copy constructor: Failed" 
+                << RESET << std::endl;
+        }
+    }
+}
 
 void testShovelAggregation(void)
 {
@@ -30,13 +146,13 @@ void testShovelAggregation(void)
         Shovel shovel1;
 
         std::cout << "Worker 1 giving shovel to itself." << std::endl;
-        worker1.giveShovel(&shovel1);
+        worker1.giveTool(&shovel1);
         
         std::cout << "Worker 1 using the shovel." << std::endl;
-        worker1.useShovel(shovel1.getIdShovel());
+        worker1.useTool(shovel1.getIdTool());
         
         std::cout << "Worker 1 using the shovel again." << std::endl;
-        worker1.useShovel(shovel1.getIdShovel());
+        worker1.useTool(shovel1.getIdTool());
 
         // result of the test
         if (shovel1.getNumberOfUses() == 2)
@@ -53,13 +169,13 @@ void testShovelAggregation(void)
         std::cout << CYAN << "\n\n------------------------------------\n\n" << RESET << std::endl;
         std::cout << CYAN << "Test 2: Reassigning the shovel to Worker 2 and using it\n" << RESET << std::endl;
         std::cout << "Worker 2 giving shovel to itself. This should remove the shovel from Worker 1." << std::endl;
-        worker2.giveShovel(&shovel1);
+        worker2.giveTool(&shovel1);
         
         std::cout << "Worker 1 trying to use the shovel." << std::endl;
-        worker1.useShovel(shovel1.getIdShovel()); // Should show worker1 does not have the shovel
+        worker1.useTool(shovel1.getIdTool()); // Should show worker1 does not have the shovel
         
         std::cout << "Worker 2 using the shovel." << std::endl;
-        worker2.useShovel(shovel1.getIdShovel());
+        worker2.useTool(shovel1.getIdTool());
 
         // result of the test
         if (shovel1.getNumberOfUses() == 3)
@@ -76,10 +192,10 @@ void testShovelAggregation(void)
         std::cout << CYAN << "\n\n------------------------------------\n\n" << RESET << std::endl;
         std::cout << CYAN << "Test 3: Worker 2 takes the shovel away\n" << RESET << std::endl;
         std::cout << "Worker 2 taking the shovel away." << std::endl;
-        worker2.takeAwayShovel(&shovel1);
+        worker2.takeAwayTool(&shovel1);
         
         std::cout << "Worker 2 trying to use the shovel." << std::endl;
-        worker2.useShovel(shovel1.getIdShovel());// Should show worker2 does not have the shovel
+        worker2.useTool(shovel1.getIdTool());// Should show worker2 does not have the shovel
 
         std::cout << "Shovel total uses: " << shovel1.getNumberOfUses() << std::endl;
 
@@ -100,10 +216,10 @@ void testShovelAggregation(void)
         {
             Worker tempWorker;
             std::cout << "Temporary Worker giving shovel to itself." << std::endl;
-            tempWorker.giveShovel(&shovel1);
+            tempWorker.giveTool(&shovel1);
             
             std::cout << "Temporary Worker using the shovel." << std::endl;
-            tempWorker.useShovel(shovel1.getIdShovel());
+            tempWorker.useTool(shovel1.getIdTool());
         } // tempWorker goes out of scope here and should be destroyed
 
         std::cout << "Shovel total uses after temporary Worker destruction: " << shovel1.getNumberOfUses() << std::endl;
@@ -127,10 +243,10 @@ void testShovelAggregation(void)
         {
             Worker tempWorker;
             std::cout << "Temporary Worker giving shovel to itself." << std::endl;
-            tempWorker.giveShovel(&shovel1);
+            tempWorker.giveTool(&shovel1);
             
             std::cout << "Temporary Worker using the shovel." << std::endl;
-            tempWorker.useShovel(shovel1.getIdShovel());
+            tempWorker.useTool(shovel1.getIdTool());
 
             // result of the test
             if (shovel1.getNumberOfUses() == 5)
@@ -149,7 +265,7 @@ void testShovelAggregation(void)
         
         // test using a shovel that does not exist
         std::cout << CYAN << "Test 6: Using a shovel that he does not have\n" << RESET << std::endl;
-        worker1.useShovel(shovel1.getIdShovel()); // Should show worker1 does not have the shovel
+        worker1.useTool(shovel1.getIdTool()); // Should show worker1 does not have the shovel
 
         std::cout << CYAN << "\n\n------------------------------------\n\n" << RESET << std::endl;
     
@@ -336,8 +452,9 @@ int main (void)
 
     // testCreateDefaultWorker();
     // testCreateParameterizedWorker();
-    //testShovelAlone();
-    testShovelAggregation();
+    // testShovelAlone();
+    //testShovelAggregation();
+    testInheritance();
 
     std::cout << PURPLE << "Tests Finished." << RESET << std::endl;
 }

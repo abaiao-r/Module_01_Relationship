@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: guest <guest@student.42.fr>                +#+  +:+       +#+         #
+#    By: abaiao-r <abaiao-r@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/22 12:48:10 by guest             #+#    #+#              #
-#    Updated: 2024/07/30 12:08:02 by guest            ###   ########.fr        #
+#    Updated: 2024/08/14 20:15:53 by abaiao-r         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,9 @@ OBJDIR = objs
 
 SRCS =  $(SRCDIR)/main.cpp \
 		$(SRCDIR)/Worker.cpp \
-		$(SRCDIR)/Shovel.cpp
+		$(SRCDIR)/ATool.cpp \
+		$(SRCDIR)/Shovel.cpp \
+		$(SRCDIR)/Hammer.cpp
 		
 OBJS = 	$(SRCS:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 

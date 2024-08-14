@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Shovel.hpp                                         :+:      :+:    :+:   */
+/*   Hammer.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abaiao-r <abaiao-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/23 11:59:41 by guest             #+#    #+#             */
-/*   Updated: 2024/08/14 20:04:29 by abaiao-r         ###   ########.fr       */
+/*   Created: 2024/08/14 20:03:03 by abaiao-r          #+#    #+#             */
+/*   Updated: 2024/08/14 20:04:47 by abaiao-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHOVEL_HPP
-# define SHOVEL_HPP
+#ifndef HAMMER_HPP
+# define HAMMER_HPP
 
 # include <iostream>
 # include "ATool.hpp"
 # include "colours.hpp"
 
-
-class Shovel : public ATool
+class Hammer : public ATool
 {       
     public:
-        Shovel(void);
-        Shovel(const Shovel &src);
-        Shovel &operator=(const Shovel &rhs);
-        ~Shovel(void);
+        Hammer(void);
+        Hammer(const Hammer &src);
+        Hammer &operator=(const Hammer &rhs);
+        ~Hammer(void);
 
         // use is basically a setter for numberOfUses
         void use(void);

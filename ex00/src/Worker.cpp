@@ -6,12 +6,11 @@
 /*   By: abaiao-r <abaiao-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:17:13 by guest             #+#    #+#             */
-/*   Updated: 2024/08/12 12:59:36 by abaiao-r         ###   ########.fr       */
+/*   Updated: 2024/08/14 19:10:59 by abaiao-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/Worker.hpp"
-#include "../includes/colours.hpp"
 
 size_t Worker::nextId = 1;
 
@@ -48,22 +47,23 @@ Worker::Worker(const Worker &src) : coordonnee(src.coordonnee), stat(src.stat),
         << std::endl;
     getIdWorker();
 
-    // No deep copy of shovels, just copy the pointers
-    for (std::vector<Shovel *>::const_iterator it = src.shovelList.begin(); 
-        it != src.shovelList.end(); it++)
+    // No deep copy of tools, just copy the pointers
+    for (std::vector<ATool *>::const_iterator it = src.toolList.begin(); 
+        it != src.toolList.end(); it++)
     {
-        this->shovelList.push_back(*it); // copy the pointer, not the object
+        this->toolList.push_back(*it); // copy the pointer, not the object
     }
+
 }
 
 Worker::~Worker(void)
 {
     std::cout << ORANGE << "Worker destructor called" << RESET << std::endl;
     getIdWorker();
-    if (this->shovelList.size() > 0)
+    if (this->toolList.size() > 0)
     {
-        std::cout << " However, the shovel was not destroyed." << std::endl;
-        removeAllShovels();
+        std::cout << " However, the tool was not destroyed." << std::endl;
+        removeAllTools();
     }
 }
 
@@ -76,12 +76,12 @@ Worker &Worker::operator=(const Worker &rhs)
     {
         this->coordonnee = rhs.coordonnee;
         this->stat = rhs.stat;
-        removeAllShovels();
-        // No deep copy of shovels, just copy the pointers
-        for (std::vector<Shovel *>::const_iterator it = rhs.shovelList.begin(); 
-            it != rhs.shovelList.end(); it++)
+        removeAllTools();
+        // No deep copy of tools, just copy the pointers
+        for (std::vector<ATool *>::const_iterator it = rhs.toolList.begin(); 
+            it != rhs.toolList.end(); it++)
         {
-            this->shovelList.push_back(*it); // copy the pointer, not the object
+            this->toolList.push_back(*it); // copy the pointer, not the object
         }
     }
     return (*this);
@@ -134,84 +134,84 @@ const size_t &Worker::getIdWorker(void) const
     return (this->idWorker);
 }
 
-const std::vector<Shovel *> &Worker::getShovelList(void) const
+const std::vector<ATool *> &Worker::getToolList(void) const
 {
-    std::cout << "Worker getShovelList called! Worker ID: " << this->idWorker 
+    std::cout << "Worker getToolList called! Worker ID: " << this->idWorker 
         << std::endl;
-    return (this->shovelList);
+    return (this->toolList);
 }
 
-void Worker::giveShovel(Shovel *newShovel)
+void Worker::giveTool(ATool *newTool)
 {
-    //check if the shovel is already in the list
-    for (std::vector<Shovel *>::iterator it = this->shovelList.begin(); 
-        it != this->shovelList.end(); it++)
+    //check if the tool is already in the list
+    for (std::vector<ATool *>::iterator it = this->toolList.begin(); 
+        it != this->toolList.end(); it++)
     {
-        if (*it == newShovel)
+        if (*it == newTool)
         {
-            std::cout << "Worker " << this->idWorker << " already has shovel with ID: " 
-                << newShovel->getIdShovel() << std::endl;
+            std::cout << "Worker " << this->idWorker << " already has tool with ID: " 
+                << newTool->getIdTool() << std::endl;
             return;
         }
     }
 
-    // remove the shovel from the previous owner
-    Worker *previousOwner = newShovel->getOwner();
+    // remove the tool from the previous owner
+    Worker *previousOwner = newTool->getOwner();
     if (previousOwner != NULL)
     {
-        previousOwner->takeAwayShovel(newShovel);
+        previousOwner->takeAwayTool(newTool);
     }
 
-    this->shovelList.push_back(newShovel);
-    newShovel->setOwner(this);
-    std::cout << "Worker " << this->idWorker << " received a new shovel with ID: " 
-        << newShovel->getIdShovel() << std::endl;
+    this->toolList.push_back(newTool);
+    newTool->setOwner(this);
+    std::cout << "Worker " << this->idWorker << " received a new tool with ID: " 
+        << newTool->getIdTool() << std::endl;
 }
 
-void Worker::takeAwayShovel(Shovel *shovelToRemove)
+void Worker::takeAwayTool(ATool *toolToRemove)
 {
-    std::vector<Shovel *>::iterator it = this->shovelList.begin();
-    while (it != this->shovelList.end())
+    std::vector<ATool *>::iterator it = this->toolList.begin();
+    while (it != this->toolList.end())
     {
-        if (*it == shovelToRemove)
+        if (*it == toolToRemove)
         {
-            std::cout << "Worker " << this->idWorker << " is removing shovel with ID: " 
-                << shovelToRemove->getIdShovel() << std::endl;
-            this->shovelList.erase(it);
-            shovelToRemove->setOwner(NULL); // Remove the owner from the shovel
+            std::cout << "Worker " << this->idWorker << " is removing tool with ID: " 
+                << toolToRemove->getIdTool() << std::endl;
+            this->toolList.erase(it);
+            toolToRemove->setOwner(NULL); // Remove the owner from the tool
             return;
         }
         it++;
     }
-    std::cout << "Worker " << this->idWorker << " did not find shovel with ID: " 
-        << shovelToRemove->getIdShovel() << std::endl;
+    std::cout << "Worker " << this->idWorker << " did not find tool with ID: " 
+        << toolToRemove->getIdTool() << std::endl;
 }
 
-void Worker::removeAllShovels(void)
+void Worker::removeAllTools(void)
 {
-    // Optionally notify that shovels are not being deleted
-    std::cout << "Worker " << this->idWorker << " is clearing all shovels without deleting them." << std::endl;
-    // Remove the owner from all shovels and clear the list
-    for (std::vector<Shovel *>::iterator it = this->shovelList.begin(); 
-        it != this->shovelList.end(); it++)
+    // Optionally notify that tools are not being deleted
+    std::cout << "Worker " << this->idWorker << " is clearing all tools without deleting them." << std::endl;
+    // Remove the owner from all tools and clear the list
+    for (std::vector<ATool *>::iterator it = this->toolList.begin(); 
+        it != this->toolList.end(); it++)
     {
         (*it)->setOwner(NULL);
     }
-    this->shovelList.clear();
+    this->toolList.clear();
 }
 
-void Worker::useShovel(size_t shovelId)
+void Worker::useTool(size_t toolId)
 {
-    std::vector<Shovel *>::iterator it = this->shovelList.begin();
-    while (it != this->shovelList.end())
+    std::vector<ATool *>::iterator it = this->toolList.begin();
+    while (it != this->toolList.end())
     {
-        if ((*it)->getIdShovel() == shovelId)
+        if ((*it)->getIdTool() == toolId)
         {
             (*it)->use();
             return;
         }
         it++;
     }
-    std::cout << "Worker " << this->idWorker << " did not find shovel with ID: " 
-        << shovelId << std::endl;
+    std::cout << "Worker " << this->idWorker << " did not find tool with ID: " 
+        << toolId << std::endl;
 }
