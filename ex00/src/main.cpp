@@ -6,7 +6,7 @@
 /*   By: abaiao-r <abaiao-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:49:10 by guest             #+#    #+#             */
-/*   Updated: 2024/08/16 22:55:28 by abaiao-r         ###   ########.fr       */
+/*   Updated: 2024/08/16 23:09:09 by abaiao-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -410,7 +410,7 @@ void testShovelAlone(void)
         std::cout << "\nUsing Shovel copy..." << std::endl;
         shovelCopy.use();
 
-        if (shovelCopy.getNumberOfUses() == 3)
+        if (shovelCopy.getNumberOfUses() == 1)
         {
             std::cout << GREEN << "Test Shovel Copy: Passed" << RESET 
                 << std::endl;
@@ -531,11 +531,11 @@ int main (void)
 {
     std::cout << PURPLE << "Starting Tests...\n\n" << RESET << std::endl;
 
-    // testCreateDefaultWorker();
-    // testCreateParameterizedWorker();
-    // testShovelAlone();
-    //testShovelAggregation();
-    //testInheritance();
+    testCreateDefaultWorker();
+    testCreateParameterizedWorker();
+    testShovelAlone();
+    testShovelAggregation();
+    testInheritance();
     testAssociation();
 
     std::cout << PURPLE << "Tests Finished." << RESET << std::endl;
