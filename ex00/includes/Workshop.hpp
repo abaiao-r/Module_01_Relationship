@@ -6,7 +6,7 @@
 /*   By: abaiao-r <abaiao-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:00:31 by abaiao-r          #+#    #+#             */
-/*   Updated: 2024/08/14 21:13:28 by abaiao-r         ###   ########.fr       */
+/*   Updated: 2024/08/16 21:35:31 by abaiao-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,22 @@ class Workshop
 {
     private:
         std::vector<Worker *> workerList;
-        size_t nextId;
+        std::vector<std::string> toolsNeeded;
+        static size_t nextId;
+        const size_t idWorkshop;
+        Workshop(void);
+
     
     public:
-        Workshop(void);
+        Workshop(const std::vector<std::string> &toolsNeeded);
         Workshop(const Workshop &src);
-        ~Workshop(void);
         Workshop &operator=(const Workshop &rhs);
+        ~Workshop(void);
+        
+        // getters
+        const std::vector<Worker *> &getWorkerList(void) const;
+        const std::vector<std::string> &getToolsNeeded(void) const;
+        const size_t &getIdWorkshop(void) const;
         
         // Worker
         void registerWorker(Worker *newWorker);
@@ -37,6 +46,9 @@ class Workshop
         void removeAllWorkers(void);
         void displayWorkers(void) const;
         void executeWorkDay(void);
+
+        bool isWorkerRegistered(Worker *workerToCheck) const;
+        bool hasRequiredTools(Worker *workerToCheck) const;
 };
 
 #endif

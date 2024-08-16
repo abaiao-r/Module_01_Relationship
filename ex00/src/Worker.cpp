@@ -6,7 +6,7 @@
 /*   By: abaiao-r <abaiao-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:17:13 by guest             #+#    #+#             */
-/*   Updated: 2024/08/14 21:20:14 by abaiao-r         ###   ########.fr       */
+/*   Updated: 2024/08/16 22:42:55 by abaiao-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,57 @@ void Worker::setStatistic(int level, int exp)
     this->stat.exp = exp;
 }
 
+void Worker::addWorkshop(Workshop *workshop)
+{
+    //check if the workshop is NULL
+    if (workshop == NULL)
+    {
+        std::cout << "Worker " << this->idWorker << " cannot register in a NULL workshop." << std::endl;
+        return;
+    }
+
+    //check if the workshop is already in the list
+    for (std::vector<Workshop *>::iterator it = this->workshopList.begin(); 
+        it != this->workshopList.end(); it++)
+    {
+        if (*it == workshop)
+        {
+            std::cout << "Worker " << this->idWorker << " already registered in workshop with ID: " 
+                << workshop->getIdWorkshop() << std::endl;
+            return;
+        }
+    }
+
+    this->workshopList.push_back(workshop);
+    std::cout << "Worker 1 registered in workshop with ID: " << workshop->getIdWorkshop() << std::endl;
+    
+}
+
+void Worker::removeWorkshop(Workshop *workshop)
+{
+    //check if the workshop is NULL
+    if (workshop == NULL)
+    {
+        std::cout << "Worker " << this->idWorker << " cannot unregister from a NULL workshop." << std::endl;
+        return;
+    }
+
+    std::vector<Workshop *>::iterator it = this->workshopList.begin();
+    while (it != this->workshopList.end())
+    {
+        if (*it == workshop)
+        {
+            std::cout << "Worker " << this->idWorker << " is unregistering from workshop with ID: " 
+                << workshop->getIdWorkshop() << std::endl;
+            this->workshopList.erase(it);
+            return;
+        }
+        it++;
+    }
+    std::cout << "Worker " << this->idWorker << " is not registered in workshop with ID: " 
+        << workshop->getIdWorkshop() << std::endl;
+}
+
 const position &Worker::getPosition(void) const
 {
     std::cout << "Worker getPosition called! Position: x = " 
@@ -139,6 +190,13 @@ const std::vector<ATool *> &Worker::getToolList(void) const
     std::cout << "Worker getToolList called! Worker ID: " << this->idWorker 
         << std::endl;
     return (this->toolList);
+}
+
+const std::vector<Workshop *> &Worker::getWorkshopList(void) const
+{
+    std::cout << "Worker getWorkshopList called! Worker ID: " << this->idWorker 
+        << std::endl;
+    return (this->workshopList);
 }
 
 void Worker::giveTool(ATool *newTool)
@@ -179,10 +237,22 @@ void Worker::takeAwayTool(ATool *toolToRemove)
                 << toolToRemove->getIdTool() << std::endl;
             this->toolList.erase(it);
             toolToRemove->setOwner(NULL); // Remove the owner from the tool
+            // check 
+            // check if worker has the tools needed to work in the workshop that he is registered in
+            // if not, remove the worker from the workshop
+            for (std::vector<Workshop *>::iterator item = this->workshopList.begin(); 
+                item != this->workshopList.end(); item++)
+            {
+                if (!(*item)->hasRequiredTools(this))
+                {
+                    (*item)->unregisterWorker(this);
+                }
+            }
             return;
         }
         it++;
     }
+
     std::cout << "Worker " << this->idWorker << " did not find tool with ID: " 
         << toolToRemove->getIdTool() << std::endl;
 }
@@ -198,6 +268,12 @@ void Worker::removeAllTools(void)
         (*it)->setOwner(NULL);
     }
     this->toolList.clear();
+    // remove worker from all workshops that he is registered in
+    for (std::vector<Workshop *>::iterator it = this->workshopList.begin(); 
+        it != this->workshopList.end(); it++)
+    {
+        (*it)->unregisterWorker(this);
+    }
 }
 
 void Worker::useTool(size_t toolId)
@@ -214,4 +290,48 @@ void Worker::useTool(size_t toolId)
     }
     std::cout << "Worker " << this->idWorker << " did not find tool with ID: " 
         << toolId << std::endl;
+}
+
+void Worker::work(Workshop &workshop)
+{
+    // check if the worker is registered in the workshop
+    if (!workshop.isWorkerRegistered(this))
+    {
+        std::cout << "Worker " << this->idWorker << " is not registered in workshop with ID: " 
+            << workshop.getIdWorkshop() << std::endl;
+        return;
+    }
+    // check if the worker has all the required tools
+    if (!workshop.hasRequiredTools(this))
+    {
+        std::cout << "Worker " << this->idWorker << " does not have all the required tools for workshop with ID: " 
+            << workshop.getIdWorkshop() << std::endl;
+        return;
+    }
+    std::cout << "Worker " << this->idWorker << " is working in workshop with ID: " 
+        << workshop.getIdWorkshop() << std::endl;
+}
+
+void Worker::displayWorkshops(void) const
+{
+    std::cout << YELLOW<< "Worker " << this->idWorker << " is registered in the following workshops:" << RESET << std::endl;
+    for (std::vector<Workshop *>::const_iterator it = this->workshopList.begin(); 
+        it != this->workshopList.end(); it++)
+    {
+        std::cout << "Workshop ID: " << (*it)->getIdWorkshop() << std::endl;
+    }
+}
+
+template <typename ToolType>
+ ToolType* Worker::GetTool(void) const
+{
+    for (std::vector<ATool *>::const_iterator it = this->toolList.begin(); 
+        it != this->toolList.end(); it++)
+    {
+        if (dynamic_cast<ToolType*>(*it))
+        {
+            return (dynamic_cast<ToolType*>(*it));
+        }
+    }
+    return (NULL);
 }

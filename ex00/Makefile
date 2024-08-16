@@ -6,7 +6,7 @@
 #    By: abaiao-r <abaiao-r@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/22 12:48:10 by guest             #+#    #+#              #
-#    Updated: 2024/08/14 20:15:53 by abaiao-r         ###   ########.fr        #
+#    Updated: 2024/08/16 21:02:01 by abaiao-r         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SRCS =  $(SRCDIR)/main.cpp \
 		$(SRCDIR)/Worker.cpp \
 		$(SRCDIR)/ATool.cpp \
 		$(SRCDIR)/Shovel.cpp \
-		$(SRCDIR)/Hammer.cpp
+		$(SRCDIR)/Hammer.cpp \
+		$(SRCDIR)/Workshop.cpp
 		
 OBJS = 	$(SRCS:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 

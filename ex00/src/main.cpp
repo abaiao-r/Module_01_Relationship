@@ -6,7 +6,7 @@
 /*   By: abaiao-r <abaiao-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:49:10 by guest             #+#    #+#             */
-/*   Updated: 2024/08/14 20:48:10 by abaiao-r         ###   ########.fr       */
+/*   Updated: 2024/08/16 22:55:28 by abaiao-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,86 @@
 #include "../includes/Shovel.hpp"
 #include "../includes/Hammer.hpp"
 #include "../includes/colours.hpp"
+
+void testAssociation(void)
+{
+    {
+       // Test Workshop and add a worker that can work there
+       std::cout << CYAN << "\n\n------------------------------------\n\n" 
+            << RESET << std::endl;
+        std::cout << CYAN << "Testing Workshop and Worker association...\n\n" << RESET
+            << std::endl;
+        std::cout << CYAN << "Creating Workshop with Shovel...\n\n" << RESET
+            << std::endl;
+        std::vector<std::string> toolsNeeded;
+        toolsNeeded.push_back("Shovel");
+        
+        Workshop workshop(toolsNeeded);
+        Worker worker;
+        Shovel shovel;
+
+        worker.giveTool(&shovel);
+        workshop.displayWorkers();
+        worker.displayWorkshops();
+        workshop.registerWorker(&worker);
+        workshop.executeWorkDay();
+        worker.useTool(shovel.getIdTool());
+        workshop.executeWorkDay();
+        worker.work(workshop);
+        workshop.unregisterWorker(&worker);
+        workshop.displayWorkers();
+        worker.displayWorkshops();
+
+        // now try to work without being registered
+        worker.work(workshop);
+        workshop.executeWorkDay();
+
+        // now try to work without having the required tools
+        Worker worker2;
+        workshop.registerWorker(&worker2);
+        workshop.executeWorkDay();
+        worker2.work(workshop);
+        workshop.unregisterWorker(&worker2);
+        workshop.executeWorkDay();
+        std::cout << CYAN << "\n\n------------------------------------\n\n" << RESET << std::endl;
+    }
+    {
+        // now try to work with the required tools being hammer and shovel
+        std::cout << CYAN << "\n\n------------------------------------\n\n" << RESET << std::endl;
+        std::cout << CYAN << "Testing Workshop and Worker association with Hammer...\n\n" << RESET << std::endl;
+        std::cout << CYAN << "Creating Workshop with Shovel and Hammer...\n\n" << RESET << std::endl;
+        
+        std::vector<std::string> toolsNeeded;
+        toolsNeeded.push_back("Shovel");
+        toolsNeeded.push_back("Hammer");
+        Workshop workshop(toolsNeeded);
+        Worker worker;
+        Shovel shovel;
+        Hammer hammer;
+
+        worker.giveTool(&shovel);
+        worker.giveTool(&hammer);
+        workshop.registerWorker(&worker);
+        workshop.executeWorkDay();
+        worker.work(workshop);
+        std::cout << CYAN << "\n\n-------------------here----------------- \n\n" << RESET << std::endl;
+        worker.takeAwayTool(&shovel);
+        workshop.executeWorkDay();
+        worker.work(workshop);
+        worker.getToolList();
+
+        // now add the shovel and try to work
+        worker.giveTool(&shovel);
+        workshop.executeWorkDay();
+        worker.work(workshop);
+
+        // register again and try to work
+        workshop.registerWorker(&worker);
+        workshop.executeWorkDay();
+        worker.work(workshop);
+    }
+
+}
 
 void testInheritance(void)
 {
@@ -446,6 +526,7 @@ void testCreateDefaultWorker(void)
     }
 }
 
+
 int main (void)
 {
     std::cout << PURPLE << "Starting Tests...\n\n" << RESET << std::endl;
@@ -454,7 +535,8 @@ int main (void)
     // testCreateParameterizedWorker();
     // testShovelAlone();
     //testShovelAggregation();
-    testInheritance();
+    //testInheritance();
+    testAssociation();
 
     std::cout << PURPLE << "Tests Finished." << RESET << std::endl;
 }
