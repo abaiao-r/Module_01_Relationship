@@ -4,9 +4,9 @@
 
 This project aims to explore various relationships between objects in Object-Oriented Programming (OOP). The exercises focus on practical applications of composition, aggregation, inheritance, and association using a computer system model. Understanding these relationships is crucial for designing flexible and maintainable code.
 
-## Why is Encapsulation Relevant?
+## Why is Relationships in OOP Relevant?
 
-Encapsulation is a fundamental concept in OOP that helps in bundling the data (attributes) and methods (functions) that operate on the data into a single unit, or class. This not only helps in hiding the internal state and requiring all interaction to be performed through an object's methods but also improves code maintainability and security. Encapsulation supports abstraction and allows for better control over the access and modification of object data.
+Relationships in OOP are essential because they help model real-world interactions between objects, making software more intuitive. They support encapsulation, which protects data and simplifies complexity. Relationships also promote code reusability through inheritance and composition, allowing developers to build on existing code efficiently. Additionally, they enable polymorphism, providing flexibility in how objects are used. Well-defined relationships lead to better maintainability and organization of code, making it easier to update systems. Overall, understanding these relationships is crucial for creating robust and scalable software solutions.
 
 ## How to Run
 
